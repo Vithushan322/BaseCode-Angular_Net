@@ -20,6 +20,9 @@ namespace API.Extentions
             //Automapper
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
+            //CORS
+            services.AddCors();
+
             return services;
         }
     }
