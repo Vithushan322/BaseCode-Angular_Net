@@ -1,7 +1,9 @@
 ﻿using API.Data;
 using API.DTO;
 using API.Entities;
+using API.Interfaces;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -14,18 +16,21 @@ namespace API.Controllers
     {
         private readonly DataContext _context;
         private readonly IMapper _mapper;
+        private readonly ITokenService _tokenService;
 
         public AccountController(
             DataContext context,
-            IMapper mapper)
+            IMapper mapper,
+            ITokenService tokenService)
         {
             _context = context;
             _mapper = mapper;
+            _tokenService = tokenService;
         }
 
         #region POST
         [HttpPost("register")]
-        public async Task<ActionResult<UserDTO>> Regiester(RegisterDTO registerDTO)
+        public async Task<ActionResult<AuthorizedUserDTO>> Regiester(RegisterDTO registerDTO)
         {
             if (await UserExists(registerDTO.Email)) return BadRequest("Email already exists!");
 
@@ -40,7 +45,36 @@ namespace API.Controllers
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
-            return Ok(_mapper.Map<UserDTO>(user));
+            var userDTO = _mapper.Map<AuthorizedUserDTO>(user, opt =>
+            {
+                opt.Items["Token"] = _tokenService.CreateToken(user);
+            });
+
+            return Ok(userDTO);
+        }
+
+        [HttpPost("login")]
+        [AllowAnonymous]
+        public async Task<ActionResult<UserDTO>> Login(LoginDTO loginDTO)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.Email.ToLower() == loginDTO.Email.ToLower());
+
+            if (user == null) return Unauthorized("Invalid Username");
+
+            using var hmac = new HMACSHA512(user.PasswordSalt);
+            var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(loginDTO.Password));
+
+            for (int i = 0; i < computedHash.Length; i++)
+            {
+                if (computedHash[i] != user.PasswordHash[i]) return Unauthorized("Invalid Password");
+            }
+
+            var userDTO = _mapper.Map<AuthorizedUserDTO>(user, opt =>
+            {
+                opt.Items["Token"] = _tokenService.CreateToken(user);
+            });
+
+            return Ok(userDTO);
         }
         #endregion
 

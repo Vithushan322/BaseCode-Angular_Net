@@ -22,19 +22,6 @@ namespace API.DTO
         public string Password { get; set; }
     }
 
-    public class UserDTO : BaseUser
-    {
-        [Required]
-        public int Id { get; set; }
-
-        [Required]
-        public string Token { get; set; }
-
-        public DateTime Created { get; set; }
-
-        public DateTime LastUpdated { get; set; }
-    }
-
     public class LoginDTO
     {
         [Required]
@@ -43,4 +30,21 @@ namespace API.DTO
         [Required]
         public string Password { get; set; }
     }
+
+    public class UserDTO : BaseUser
+    {
+        [Required]
+        public int Id { get; set; }
+
+        public DateTime Created { get; set; }
+
+        public DateTime LastUpdated { get; set; }
+    }
+
+    public class AuthorizedUserDTO : UserDTO
+    {
+        [Required]
+        public string Token { get; set; }
+    }
+
 }

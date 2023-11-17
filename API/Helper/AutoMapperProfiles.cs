@@ -7,7 +7,6 @@ namespace API.Helper
     public class AutoMapperProfiles : Profile
     {
         public AutoMapperProfiles() {
-            CreateMap<User, UserDTO>();
             CreateMap<RegisterDTO, User>()
                 .ForMember(
                     dest => dest.PasswordHash,
@@ -15,6 +14,13 @@ namespace API.Helper
                 .ForMember(
                     dest => dest.PasswordSalt,
                     opt => opt.MapFrom((src, dst, arg3, context) => context.Items["PasswordSalt"]));
+
+            CreateMap<User, AuthorizedUserDTO>()
+                .ForMember(
+                    dest => dest.Token,
+                    opt => opt.MapFrom((src, dst, arg3, context) => context.Items["Token"]));
+
+            CreateMap<User, UserDTO>();
         }
     }
 }
