@@ -18,7 +18,7 @@ namespace API.DTO
     public class RegisterDTO : BaseUser
     {
         [Required]
-        [StringLength(8, MinimumLength = 4)]
+        [StringLength(15, MinimumLength = 5)]
         public string Password { get; set; }
     }
 
