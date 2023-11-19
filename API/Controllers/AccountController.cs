@@ -14,23 +14,23 @@ namespace API.Controllers
 {
     public class AccountController : BaseApiController
     {
-        private readonly DataContext _context;
+        private readonly DataContext _dbContext;
         private readonly IMapper _mapper;
         private readonly ITokenService _tokenService;
 
         public AccountController(
-            DataContext context,
+            DataContext dbContext,
             IMapper mapper,
             ITokenService tokenService)
         {
-            _context = context;
+            _dbContext = dbContext;
             _mapper = mapper;
             _tokenService = tokenService;
         }
 
         #region POST
         [HttpPost("register")]
-        public async Task<ActionResult<AuthorizedUserDTO>> Regiester(RegisterDTO registerDTO)
+        public async Task<ActionResult<AuthorizedUserDTO>> Regiester(RegisterDTO registerDTO, IFormFile file = null)
         {
             if (await UserExists(registerDTO.Email)) return BadRequest("Email already exists!");
 
@@ -42,8 +42,8 @@ namespace API.Controllers
                 opt.Items["PasswordSalt"] = hmac.Key;
             });
 
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
+            _dbContext.Users.Add(user);
+            await _dbContext.SaveChangesAsync();
 
             var userDTO = _mapper.Map<AuthorizedUserDTO>(user, opt =>
             {
@@ -54,10 +54,9 @@ namespace API.Controllers
         }
 
         [HttpPost("login")]
-        [AllowAnonymous]
         public async Task<ActionResult<UserDTO>> Login(LoginDTO loginDTO)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(x => x.Email.ToLower() == loginDTO.Email.ToLower());
+            var user = await _dbContext.Users.Include(x => x.Photos).FirstOrDefaultAsync(x => x.Email.ToLower() == loginDTO.Email.ToLower());
 
             if (user == null) return Unauthorized("Invalid Username");
 
@@ -80,7 +79,7 @@ namespace API.Controllers
 
         private async Task<bool> UserExists(string email)
         {
-            return await _context.Users.AnyAsync(x => x.Email == email.ToLower());
+            return await _dbContext.Users.AnyAsync(x => x.Email == email.ToLower());
         }
     }
 }

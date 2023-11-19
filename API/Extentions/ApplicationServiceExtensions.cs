@@ -1,4 +1,5 @@
 ﻿using API.Data;
+using API.Helper;
 using API.Interfaces;
 using API.Services;
 using Microsoft.EntityFrameworkCore;
@@ -27,6 +28,12 @@ namespace API.Extentions
 
             //Token
             services.AddScoped<ITokenService, TokenService>();
+
+            //Cloudinary settings
+            services.Configure<CloudinarySettings>(config.GetSection("CloudinarySettings"));
+
+            //Photo
+            services.AddScoped<IPhotoService, PhotoService>();
 
             return services;
         }

@@ -39,6 +39,10 @@ namespace API.DTO
         public DateTime Created { get; set; }
 
         public DateTime LastUpdated { get; set; }
+
+        public List<PhotoDTO> Photos { get; set; }
+
+        public string PhotoUrl { get; set; }
     }
 
     public class AuthorizedUserDTO : UserDTO

@@ -18,9 +18,17 @@ namespace API.Helper
             CreateMap<User, AuthorizedUserDTO>()
                 .ForMember(
                     dest => dest.Token,
-                    opt => opt.MapFrom((src, dst, arg3, context) => context.Items["Token"]));
+                    opt => opt.MapFrom((src, dst, arg3, context) => context.Items["Token"]))
+                .ForMember(
+                    dest => dest.PhotoUrl,
+                    opt => opt.MapFrom(src => src.Photos.FirstOrDefault(x => x.IsMain).Url));
 
-            CreateMap<User, UserDTO>();
+            CreateMap<User, UserDTO>()
+                .ForMember(
+                    dest => dest.PhotoUrl,
+                    opt => opt.MapFrom(src => src.Photos.FirstOrDefault(x => x.IsMain).Url));
+
+            CreateMap<Photo, PhotoDTO>();
         }
     }
 }

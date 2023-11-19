@@ -25,7 +25,7 @@ namespace API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<UserDTO>>> GetUsers()
         {
-            var users = await _dbContext.Users.ToListAsync();
+            var users = await _dbContext.Users.Include(p => p.Photos).ToListAsync();
 
             return Ok(_mapper.Map<IEnumerable<UserDTO>>(users));
         }
@@ -35,7 +35,7 @@ namespace API.Controllers
         {
             if (id <= 0) return BadRequest("Invalid user id!");
 
-            var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.Id == id);
+            var user = await _dbContext.Users.Include(p => p.Photos).FirstOrDefaultAsync(x => x.Id == id);
 
             if (user == null) return NotFound("User does not exists!");
 

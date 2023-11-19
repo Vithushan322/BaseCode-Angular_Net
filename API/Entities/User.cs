@@ -10,6 +10,6 @@
         public byte[] PasswordSalt { get; set; }
         public DateTime Created { get; set; } = DateTime.UtcNow;
         public DateTime LastUpdated { get; set; }
-        //public Photo Photo { get; set; }
+        public List<Photo> Photos { get; set; }
     }
 }
