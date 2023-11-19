@@ -49,6 +49,7 @@ namespace API.Controllers
 
             if (user.Photos.Count == 0) photo.IsMain = true;
 
+            user.LastUpdated = DateTime.UtcNow;
             user.Photos.Add(photo);
 
             if (await _dbContext.SaveChangesAsync() > 0) return _mapper.Map<PhotoDTO>(photo);
@@ -79,6 +80,7 @@ namespace API.Controllers
                 if (result.Error != null) return BadRequest(result.Error.Message);
             }
 
+            user.LastUpdated = DateTime.UtcNow;
             user.Photos.Remove(photo);
 
             if (await _dbContext.SaveChangesAsync() > 0) return Ok();
@@ -103,6 +105,7 @@ namespace API.Controllers
             if (currentMain != null) currentMain.IsMain = false;
             photo.IsMain = true;
 
+            user.LastUpdated = DateTime.UtcNow;
             if (await _dbContext.SaveChangesAsync() > 0) return NoContent();
 
             return BadRequest("Failed to set main photo");

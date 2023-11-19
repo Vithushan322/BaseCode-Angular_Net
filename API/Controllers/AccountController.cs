@@ -30,7 +30,7 @@ namespace API.Controllers
 
         #region POST
         [HttpPost("register")]
-        public async Task<ActionResult<AuthorizedUserDTO>> Regiester(RegisterDTO registerDTO, IFormFile file = null)
+        public async Task<ActionResult<AuthorizedUserDTO>> Regiester(RegisterDTO registerDTO)
         {
             if (await UserExists(registerDTO.Email)) return BadRequest("Email already exists!");
 
