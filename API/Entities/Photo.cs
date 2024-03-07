@@ -10,7 +10,9 @@ namespace API.Entities
         public bool IsMain { get; set; }
         public string PublicId { get; set; }
 
-        public int UserId { get; set; }
+        public int? UserId { get; set; }
+
+        [ForeignKey("UserId")]
         public User User { get; set; }
     }
 }

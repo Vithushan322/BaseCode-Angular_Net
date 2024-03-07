@@ -28,7 +28,7 @@ namespace API.Controllers
         }
 
         #region POST
-        [HttpPost("add-photo")]
+        [HttpPost("add-photo/user")]
         public async Task<ActionResult<PhotoDTO>> AddPhoto(IFormFile file)
         {
             if (file == null) return BadRequest("Invalid File");
