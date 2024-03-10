@@ -30,7 +30,12 @@ export class AccountService {
   }
 
   registerUser(model: any) {
-    return this.http.post<any>(this.baseUrl + 'account/register', model
+    return this.http.post<User>(this.baseUrl + 'account/register', model).pipe(
+      map((response: User) => {
+        if (response) {
+          this.setCurrentUser(response)
+        }
+      })
     );
   }
 

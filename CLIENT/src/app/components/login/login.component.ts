@@ -33,7 +33,6 @@ export class LoginComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       firstName: ['', [Validators.required]],
       lastName: ['', [Validators.required]],
-      location: [''],
       password: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(15)]],
       confirmPassword: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(15)]]
     });
@@ -48,10 +47,12 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  //ToDo
   register() {
-    this.accountService.registerUser(this.loginForm.value).subscribe({
-      next: (response) => { this.toastr.success('Registered') },
+    this.accountService.registerUser(this.registerForm.value).subscribe({
+      next: (response) => {
+        this.toastr.success('User created!');
+        this.router.navigate(['dashboard']);
+      },
       error: error => { this.toastr.error(error.error) }
     });
   }
