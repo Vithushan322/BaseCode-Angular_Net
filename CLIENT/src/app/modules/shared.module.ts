@@ -3,13 +3,15 @@ import { CommonModule } from '@angular/common';
 
 import { ToastrModule } from 'ngx-toastr';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   declarations: [],
   imports: [
     CommonModule,
+    MatIconModule,
     ToastrModule.forRoot({
-      positionClass: 'toast-bottom-right'
+      positionClass: 'toast-top-right'
     }),
     NgxSpinnerModule.forRoot({
       type: 'ball-newton-cradle'
@@ -17,7 +19,8 @@ import { NgxSpinnerModule } from 'ngx-spinner';
   ],
   exports: [
     ToastrModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    MatIconModule
   ]
 })
 

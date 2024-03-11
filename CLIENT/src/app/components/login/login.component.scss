@@ -1,0 +1,100 @@
+.background {
+    background-color: #080808;
+    // background-image: url("^assets/backgroundImage.jpg");
+    // background-size: cover;
+    // background-repeat: no-repeat;
+    // background-position: center;
+    // background-attachment: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    width: 100%;
+}
+
+.content {
+    width: fit-content;
+    color: rgb(255, 255, 255);
+
+    .logo {
+        height: 200px;
+        width: 200px;
+        overflow: hidden;
+        position: relative;
+        margin: 0 auto;
+
+        img {
+            width: 100%;
+            height: 100%;
+            transition-duration: 100ms;
+            transition-timing-function: ease-in;
+            // border-top-left-radius: 15px;
+            // border-top-right-radius: 15px;
+        }
+    }
+
+    .footer {
+        text-align: center;
+        margin-top: 15px;
+
+        .hyperlink {
+            color: rgb(41, 151, 255);
+        }
+
+        .hyperlink:hover {
+            cursor: pointer;
+            text-decoration: underline;
+        }
+    }
+
+    input:focus {
+        outline: none;
+    }
+    input {
+        width: 310px;
+        line-height: 40px;
+        margin-bottom: 10px;
+        border: none;
+        outline: none;
+        border-radius: 10px;
+        background: rgb(32, 32, 32);
+        color: rgb(255, 255, 255);
+        padding: 0 10px;
+    }
+    ::placeholder {
+        color: rgb(150, 150, 150);
+        opacity: 1; /* Firefox */
+    }
+    input:hover {
+        cursor: text;
+    }
+
+    button {
+        width: 310px;
+        line-height: 35px;
+        margin: 10px 0;
+        border: none;
+        outline: none;
+        border-radius: 10px;
+        background: rgb(41, 151, 255);
+        color: rgb(226, 232, 240);
+    }
+    button:hover {
+        cursor: pointer;
+    }
+
+    .input-container {
+        position: relative;
+
+        mat-icon {
+            cursor: pointer !important;
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            color: rgb(150, 150, 150);
+            font-size: 18px;
+            text-align: center;
+        }
+    }
+}

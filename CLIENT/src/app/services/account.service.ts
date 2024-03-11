@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from '../environments/environment.development';
+import { environment } from '../../environments/environment.development';
 import { BehaviorSubject, map } from 'rxjs';
 import { User } from '../models/user';
 import { Router } from '@angular/router';

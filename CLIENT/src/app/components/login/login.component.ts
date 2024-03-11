@@ -12,6 +12,8 @@ import { ToastrService } from 'ngx-toastr';
 export class LoginComponent implements OnInit {
   loginForm: FormGroup = new FormGroup({});
   registerForm: FormGroup = new FormGroup({});
+  isLogin: boolean = true;
+  isPasswordHidden: boolean = true;
 
   constructor(
     private accountService: AccountService,
@@ -23,7 +25,7 @@ export class LoginComponent implements OnInit {
     this.initializeForm();
   }
 
-  initializeForm() {
+  initializeForm(): void {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(15)]]
@@ -38,7 +40,7 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  login() {
+  login(): void {
     this.accountService.logIn(this.loginForm.value).subscribe({
       next: (response) => {
         this.router.navigate(['dashboard']);
@@ -47,7 +49,7 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  register() {
+  register(): void {
     this.accountService.registerUser(this.registerForm.value).subscribe({
       next: (response) => {
         this.toastr.success('User created!');
@@ -55,5 +57,14 @@ export class LoginComponent implements OnInit {
       },
       error: error => { this.toastr.error(error.error) }
     });
+  }
+
+  navigateLoginRegister() : void {
+    this.isLogin = !this.isLogin;
+    this.isPasswordHidden = true;
+  }
+
+  toDo(): void {
+    this.toastr.warning('Need to implement!')
   }
 }

@@ -1,49 +1,59 @@
-<form [formGroup]="loginForm" (ngSubmit)="login()">
-    <div>
-        <label>
-            Email:
-            <input type="text" formControlName="email">
-        </label>
+<div class="background">
+    <div class="content">
+        <div class="logo">
+            <img [src]="'/assets/logo.png'">
+        </div>
+        <div class="login" *ngIf="isLogin">
+            <form [formGroup]="loginForm" (ngSubmit)="login()">
+                <div>
+                    <input type="text" formControlName="email" placeholder="Email">
+                </div>
+                <div class="input-container">
+                    <input type="{{isPasswordHidden ? 'password' : 'text'}}" formControlName="password" placeholder="Password">
+                    <mat-icon (click)="isPasswordHidden = !isPasswordHidden">
+                        {{isPasswordHidden ? 'visibility_off' : 'visibility'}}
+                    </mat-icon>
+                </div>
+                <button type="submit" [disabled]="!loginForm.valid">Login</button>
+            </form>
+            <div class="footer noselect">
+                <div class="d-flex" style="justify-content: center;">
+                    <div>Dont have an account yet?</div>
+                    <div class="hyperlink ms-2" (click)="navigateLoginRegister()"> Create One!</div>
+                </div>
+                <div class="hyperlink mt-2" (click)="toDo()"> Forgot your password?</div>
+            </div>
+        </div>
+        <div class="register" *ngIf="!isLogin">
+
+            <form [formGroup]="registerForm" (ngSubmit)="register()" autocomplete="off">
+                <div>
+                    <input type="text" formControlName="email" placeholder="Email">
+                </div>
+                <div>
+                    <input type="text" formControlName="firstName" placeholder="First Name">
+                </div>
+                <div>
+                    <input type="text" formControlName="lastName" placeholder="Last Name">
+                </div>
+                <div class="input-container">
+                    <input type="{{isPasswordHidden ? 'password' : 'text'}}" formControlName="password" placeholder="Password">
+                    <mat-icon (click)="isPasswordHidden = !isPasswordHidden">
+                        {{isPasswordHidden ? 'visibility_off' : 'visibility'}}
+                    </mat-icon>
+                </div>
+                <div>
+                    <input type="{{isPasswordHidden ? 'password' : 'text'}}" formControlName="confirmPassword" placeholder="Confirm Password">
+                </div>
+                <button type="submit" [disabled]="!registerForm.valid">Register</button>
+            </form>
+            <div class="footer noselect">
+                <div class="d-flex" style="justify-content: center;">
+                    <div>Already have an account?</div>
+                    <div class="hyperlink ms-2" (click)="navigateLoginRegister()"> Login!</div>
+                </div>
+                <div class="hyperlink mt-2" (click)="toDo()"> Resent email confirmation!</div>
+            </div>
+        </div>
     </div>
-    <div>
-        <label>
-            Password:
-            <input type="text" formControlName="password">
-        </label>
-    </div>
-    <button type="submit" [disabled]="!loginForm.valid">Login</button>
-</form>
-<br>
-<form [formGroup]="registerForm" (ngSubmit)="register()">
-    <div>
-        <label>
-            Email:
-            <input type="text" formControlName="email">
-        </label>
-    </div>
-    <div>
-        <label>
-            First Name:
-            <input type="text" formControlName="firstName">
-        </label>
-    </div>
-    <div>
-        <label>
-            Last Name:
-            <input type="text" formControlName="lastName">
-        </label>
-    </div>
-    <div>
-        <label>
-            Password:
-            <input type="password" formControlName="password">
-        </label>
-    </div>
-    <div>
-        <label>
-            Confirm Password:
-            <input type="password" formControlName="confirmPassword">
-        </label>
-    </div>
-    <button type="submit" [disabled]="!registerForm.valid">Register</button>
-</form>
+</div>

@@ -7,7 +7,7 @@ import {
 } from '@angular/common/http';
 import { Observable, delay, finalize, identity } from 'rxjs';
 import { SpinnerService } from '../services/spinner.service';
-import { environment } from '../environments/environment';
+import { environment } from '../../environments/environment';
 
 @Injectable()
 export class LoadingInterceptor implements HttpInterceptor {
